@@ -24,6 +24,14 @@ done
 # When the USB storage device is detected, mount it
 mount /dev/$STORAGE_DEV $STORAGE_MOUNT_POINT
 
+if [ -f $STORAGE_MOUNT_POINT/CARD_ID ]; then
+  sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
+  sudo sh -c "echo 100 > /sys/class/leds/led0/delay_on"
+  sleep 10000
+  sync
+  shutdown -h now
+fi
+
 # Set the ACT LED to blink at 1000ms to indicate that the storage device has been mounted
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
 sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
